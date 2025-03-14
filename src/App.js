@@ -1,25 +1,28 @@
-import logo from './logo.svg';
 import './App.css';
+import TodoItem from "./components/TodoItem/TodoItem";
+
 
 function App() {
+
+  const taches = ([
+    { id: 1, text: "Faire les courses" },
+    { id: 2, text: "Réviser React" },
+    { id: 3, text: "Préparer la réunion" },
+  ]);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <section>
+          <button>Trier</button>
+          <button>Filtrer</button>
+
+        <section className="liste">
+        {taches.map((tache) => (
+                <TodoItem key={tache.id} tache={tache} />
+            ))}
+        </section>
+        </section>
   );
 }
+
 
 export default App;
