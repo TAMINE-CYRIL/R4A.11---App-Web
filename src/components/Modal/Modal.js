@@ -1,3 +1,11 @@
+/**
+ *
+ * @param isOpen
+ * @param closeModal
+ * @param children
+ * @returns {JSX.Element|null}
+ * @constructor
+ */
 export default function Modal(isOpen, closeModal, children) {
     if (!isOpen) return null;
 

@@ -2,7 +2,7 @@ import './App.css';
 import TodoItem from "./components/TodoItem/TodoItem";
 
 
-function App() {
+export default function App() {
 
   const taches = ([
     { id: 1, text: "Faire les courses" },
@@ -25,4 +25,3 @@ function App() {
 }
 
 
-export default App;

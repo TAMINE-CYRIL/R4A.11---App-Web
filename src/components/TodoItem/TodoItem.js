@@ -1,3 +1,9 @@
+/**
+ * Composant contenant une tâche ainsi que son état
+ * @param tache Le nom de la tâche
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export default function TodoItem({tache}) {
     const etatOptions = [
         { value: '', label: '--Choisissez une option--' },

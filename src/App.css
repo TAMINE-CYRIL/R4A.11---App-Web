@@ -1,3 +1,25 @@
 .liste{
   background-color: darkgray;
 }
+
+body{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+button{
+  background-color: #aaf197;
+  padding: 2vw;
+  border-radius: 1vw;
+  border: none;
+  margin: 1vw;
+
+}
+
+li{
+  list-style: none;
+}
