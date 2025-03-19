@@ -15,14 +15,19 @@ export default function TodoItem({ tasks, onDelete, onEdit }) {
                                 value={editText}
                                 onChange={(e) => setEditText(e.target.value)}
                             />
-                            <button onClick={() => onEdit(task.id, editText)}>✔ Sauvegarder</button>
-                            <button onClick={() => setEditTaskId(null)}>❌ Annuler</button>
+                            <button onClick={() => onEdit(task.id, editText)}>Sauvegarder</button>
+                            <button onClick={() => setEditTaskId(null)}>Annuler</button>
                         </>
                     ) : (
                         <>
-                            {task.text}
-                            <button onClick={() => { setEditTaskId(task.id); setEditText(task.text); }}>✏ Modifier</button>
-                            <button onClick={() => onDelete(task.id)}>🗑️ Supprimer</button>
+                            {task.title}
+
+                            {task.status}
+
+                            {task.description}
+
+                            <button onClick={() => { setEditTaskId(task.id); setEditText(task.title); }}>Modifier</button>
+                            <button onClick={() => onDelete(task.id)}>Supprimer</button>
                         </>
                     )}
                 </li>
@@ -30,3 +35,5 @@ export default function TodoItem({ tasks, onDelete, onEdit }) {
         </ul>
     );
 }
+
+

@@ -7,7 +7,7 @@ export default function App() {
     const [tasks, setTasks] = useState([]);
 
     const handleAddTask = (newTask) => {
-        setTasks([...tasks, { id: Date.now(), text: newTask, completed: false }]);
+        setTasks([...tasks, newTask]);
     };
 
     const handleDeleteTask = (taskId) => {
