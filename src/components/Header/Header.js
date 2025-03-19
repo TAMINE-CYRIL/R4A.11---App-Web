@@ -3,11 +3,12 @@
  * @returns {JSX.Element}
  * @constructor
  */
-export default function Header() {
+export default function Header({taskCount}) {
+
 
     return (
         <>
-            <h1>Tâches</h1>
+            <h1>{taskCount} Tâches</h1>
             <hr />
         </>
     );

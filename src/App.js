@@ -1,27 +1,30 @@
-import './App.css';
+import React, { useState } from "react";
+import Header from "./components/Header/Header";
+import TodoForm from "./components/TodoForm/TodoForm";
 import TodoItem from "./components/TodoItem/TodoItem";
 
-
 export default function App() {
+    const [tasks, setTasks] = useState([]);
 
-  const taches = ([
-    { id: 1, text: "Faire les courses" },
-    { id: 2, text: "Réviser React" },
-    { id: 3, text: "Préparer la réunion" },
-  ]);
+    const handleAddTask = (newTask) => {
+        setTasks([...tasks, { id: Date.now(), text: newTask, completed: false }]);
+    };
 
-  return (
-      <section>
-          <button>Trier</button>
-          <button>Filtrer</button>
+    const handleDeleteTask = (taskId) => {
+        setTasks(tasks.filter((task) => task.id !== taskId));
+    };
 
-        <section className="liste">
-        {taches.map((tache) => (
-                <TodoItem key={tache.id} tache={tache} />
-            ))}
-        </section>
-        </section>
-  );
+    const handleEditTask = (taskId, newText) => {
+        setTasks(tasks.map((task) =>
+            task.id === taskId ? { ...task, text: newText } : task
+        ));
+    };
+
+    return (
+        <div>
+            <Header taskCount={tasks.length} />
+            <TodoForm onAddTask={handleAddTask} />
+            <TodoItem tasks={tasks} onDelete={handleDeleteTask} onEdit={handleEditTask} />
+        </div>
+    );
 }
-
-

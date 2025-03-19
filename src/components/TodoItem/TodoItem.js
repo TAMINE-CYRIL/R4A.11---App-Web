@@ -1,28 +1,32 @@
-/**
- * Composant contenant une tâche ainsi que son état
- * @param tache Le nom de la tâche
- * @returns {JSX.Element}
- * @constructor
- */
-export default function TodoItem({tache}) {
-    const etatOptions = [
-        { value: '', label: '--Choisissez une option--' },
-        { value: 'nouveau', label: 'Nouveau' },
-        { value: 'encours', label: 'En cours' },
-        { value: 'reussi', label: 'Réussi' },
-        { value: 'attente', label: 'En attente' },
-        { value: 'abandonne', label: 'Abandonné' },
-    ];
+import React, { useState } from "react";
+
+export default function TodoItem({ tasks, onDelete, onEdit }) {
+    const [editTaskId, setEditTaskId] = useState(null);
+    const [editText, setEditText] = useState("");
 
     return (
-        <li> {tache.text}
-            <select name="etat" id="etat">
-                {etatOptions.map((option) => (
-                    <option key={option.value} value={option.value}>
-                        {option.label}
-                    </option>
-                ))}
-            </select>
-        </li>
+        <ul>
+            {tasks.map((task) => (
+                <li key={task.id}>
+                    {editTaskId === task.id ? (
+                        <>
+                            <input
+                                type="text"
+                                value={editText}
+                                onChange={(e) => setEditText(e.target.value)}
+                            />
+                            <button onClick={() => onEdit(task.id, editText)}>✔ Sauvegarder</button>
+                            <button onClick={() => setEditTaskId(null)}>❌ Annuler</button>
+                        </>
+                    ) : (
+                        <>
+                            {task.text}
+                            <button onClick={() => { setEditTaskId(task.id); setEditText(task.text); }}>✏ Modifier</button>
+                            <button onClick={() => onDelete(task.id)}>🗑️ Supprimer</button>
+                        </>
+                    )}
+                </li>
+            ))}
+        </ul>
     );
 }
