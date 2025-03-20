@@ -11,8 +11,8 @@ const TodoForm = ({ onAddTask }) => {
 
     const handleAddTask = (e) => {
         e.preventDefault();
-        if (title.trim().length < 3) {
-            alert("Le titre de la tâche doit être d'au moins 3 caractères");
+        if (title.trim().length <= 3) {
+            alert("Le titre de la tâche doit être d'au moins 3 caractères.");
             return;
         }
 
