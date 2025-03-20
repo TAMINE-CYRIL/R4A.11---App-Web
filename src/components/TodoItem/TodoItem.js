@@ -4,8 +4,13 @@ export default function TodoItem({ tasks, onDelete, onEdit }) {
     const [editTaskId, setEditTaskId] = useState(null);
     const [editTask, setEditTask] = useState({});
 
+
     const handleEditChange = (e) => {
-        setEditTask({ ...editTask, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+        setEditTask((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
     };
 
     const handleEditSave = () => {
@@ -13,7 +18,11 @@ export default function TodoItem({ tasks, onDelete, onEdit }) {
         setEditTaskId(null);
     };
 
+
+
     return (
+        <section>
+
         <ul>
             {tasks.map((task) => (
                 <li key={task.id}>
@@ -28,6 +37,12 @@ export default function TodoItem({ tasks, onDelete, onEdit }) {
                                 <option value="En attente">En attente</option>
                                 <option value="Abandonné">Abandonné</option>
                             </select>
+                            <textarea
+                                name="description"
+                                placeholder="Description (optionnel)"
+                                value={editTask.description}
+                                onChange={handleEditChange}
+                            />
                             <button onClick={handleEditSave}>Sauvegarder</button>
                             <button onClick={() => setEditTaskId(null)}>Annuler</button>
                         </>
@@ -45,5 +60,6 @@ export default function TodoItem({ tasks, onDelete, onEdit }) {
                 </li>
             ))}
         </ul>
+        </section>
     );
 }

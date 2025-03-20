@@ -35,15 +35,18 @@ const TodoFormCategory = ({ onAddCategory }) => {
 
             {showFormCategory && (
                 <form onSubmit={handleAddCategory}>
-                    {}
+
                     <input
                         type="text"
                         placeholder="Ajouter une catégorie..."
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                     required={true}/>
-
-                    {}
+                    <textarea
+                        placeholder="Description (optionnel)"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                    />
                     <input
                         type="color"
                         id="couleur"

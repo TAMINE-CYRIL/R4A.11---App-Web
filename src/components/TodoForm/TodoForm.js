@@ -2,9 +2,9 @@ import { useState } from "react";
 
 const TodoForm = ({ onAddTask }) => {
     const [title, setTitle] = useState("");
-    const [dueDate, setDueDate] = useState("");
+    const [date_echeance, setDate_echeance] = useState("");
     const [description, setDescription] = useState("");
-    const [status, setStatus] = useState("Nouveau");
+    const [etat, setEtat] = useState("Nouveau");
     const [done, setDone] = useState(false);
     const [urgent, setUrgent] = useState(false);
     const [showForm, setShowForm] = useState(false);
@@ -19,12 +19,12 @@ const TodoForm = ({ onAddTask }) => {
         const newTask = {
             id : Date.now(),
             title,
-            dueDate,
+            date_echeance,
             description,
-            status,
+            etat,
             done,
             urgent,
-            creation: new Date().getTime()
+            date_creation: new Date().getTime()
 
 
 
@@ -32,9 +32,9 @@ const TodoForm = ({ onAddTask }) => {
 
         onAddTask(newTask);
         setTitle("");
-        setDueDate("");
+        setDate_echeance("");
         setDescription("");
-        setStatus("Nouveau");
+        setEtat("Nouveau");
         setDone(false);
         setUrgent(false);
         setShowForm(false);
@@ -58,11 +58,11 @@ const TodoForm = ({ onAddTask }) => {
                     />
                     <input
                         type="date"
-                        value={dueDate}
-                        onChange={(e) => setDueDate(e.target.value)}
+                        value={date_echeance}
+                        onChange={(e) => setDate_echeance(e.target.value)}
                     />
 
-                    <select value={status} onChange={(e) => setStatus(e.target.value)}>
+                    <select value={etat} onChange={(e) => setEtat(e.target.value)}>
                         <option value="Nouveau">Nouveau</option>
                         <option value="En cours">En Cours</option>
                         <option value="Reussi">Réussi</option>
