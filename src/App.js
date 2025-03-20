@@ -8,7 +8,7 @@ import TodoCategory from "./components/TodoCategory/TodoCategory";
 
 export default function App() {
     const [tasks, setTasks] = useState([]);
-    const [categories, setCategories] = useState([[]]);
+    const [categories, setCategories] = useState([]);
 
     useEffect(() => {
         setTasks(taches.taches);
@@ -29,9 +29,10 @@ export default function App() {
         setCategories(categories.filter((category) => category.id !== categoryId));
     }
 
-    const handleEditCategory = (categoryId, newCategory) => {
-        setCategories(categories.filter((category) => category.id !== categoryId));
-    }
+    const handleEditCategory = (categoryId, newText) => {
+        setCategories(categories.map((category) =>
+            category.id === categoryId ? { ...category, text: newText } : category
+        ));    }
 
     const handleAddTask = (newTask) => {
         setTasks([...tasks, newTask]);

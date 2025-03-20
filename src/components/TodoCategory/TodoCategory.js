@@ -25,7 +25,7 @@ export default function TodoCategory({ categories, onEdit, onDelete }) {
                         </>
                     ) : (
                         <>
-                            <h3>{category.title}</h3>
+                            <h3 style={{ color: category.color }}> {category.title}</h3>
                             <p>Description : {category.description}</p>
                             <button onClick={() => { setEditCategoryId(category.id); setEditCategory(category); }}>Modifier</button>
                             <button onClick={() => onDelete(category.id)}>Supprimer</button>
