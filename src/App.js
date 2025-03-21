@@ -44,9 +44,9 @@ export default function App() {
         setTasks(tasks.filter((task) => task.id !== taskId));
     };
 
-    const handleEditTask = (taskId, newText) => {
+    const handleEditTask = (taskId, updatedTask) => {
         setTasks(tasks.map((task) =>
-            task.id === taskId ? { ...task, text: newText } : task
+            task.id === taskId ? { ...task, ...updatedTask } : task
         ));
     };
 

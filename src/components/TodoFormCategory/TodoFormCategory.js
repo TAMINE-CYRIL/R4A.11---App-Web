@@ -9,7 +9,10 @@ const TodoFormCategory = ({ onAddCategory }) => {
 
     const handleAddCategory = (e) => {
         e.preventDefault();
-        if (title.trim().length <= 3) alert("Le titre de la catégorie doit être d'au moins 3 caractères.");
+        if (title.trim().length <= 3) {
+            alert("Le titre de la catégorie doit être d'au moins 3 caractères.");
+            return;
+        }
 
         const newCategory = {
             id: Date.now(),

@@ -13,7 +13,6 @@ export default function TodoCategory({ categories, onEdit, onDelete }) {
     };
 
     const handleEditSave = () => {
-        // Appeler la fonction onEdit avec l'id de la catégorie et les nouvelles données
         onEdit(editCategoryId, editCategory);
         setEditCategoryId(null);
     };

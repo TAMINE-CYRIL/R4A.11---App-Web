@@ -55,12 +55,12 @@ const TodoForm = ({ onAddTask }) => {
                         placeholder="Ajouter une tâche..."
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                    />
+                    required={true}/>
                     <input
                         type="date"
                         value={date_echeance}
                         onChange={(e) => setDate_echeance(e.target.value)}
-                    />
+                    required={true}/>
 
                     <select value={etat} onChange={(e) => setEtat(e.target.value)}>
                         <option value="Nouveau">Nouveau</option>
