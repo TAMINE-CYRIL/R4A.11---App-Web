@@ -9,7 +9,7 @@ import TodoCategory from "./components/TodoCategory/TodoCategory";
 export default function App() {
     const [tasks, setTasks] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [sortCriteria, setSortCriteria] = useState("title");
+    const [sortCriteria, setSortCriteria] = useState("");
 
     useEffect(() => {
         setTasks(taches.taches);
@@ -62,14 +62,14 @@ export default function App() {
             case "title":
                 sortedTasks.sort((a, b) => a.title.localeCompare(b.title));
                 break;
-                case "description":
-                    sortedTasks.sort((a, b) => a.description.localeCompare(b.description));
-                    break;
+            case "description":
+                sortedTasks.sort((a, b) => a.description.localeCompare(b.description));
+                break;
             case "date":
                 sortedTasks.sort((a, b) => new Date(a.date_echeance) - new Date(b.date_echeance));
                 break;
-                default:
-                    return tasks;
+            default:
+                return tasks;
         }
         setTasks(sortedTasks);
 
@@ -89,7 +89,7 @@ export default function App() {
 
                         <label htmlFor="sort">Trier par :</label>
                         <select id="sort" value={sortCriteria} onChange={handleSortChange}>
-                            <option value="name">Nom</option>
+                            <option value="title">Titre</option>
                             <option value="description">Description</option>
                             <option value="date">Date</option>
                         </select>
