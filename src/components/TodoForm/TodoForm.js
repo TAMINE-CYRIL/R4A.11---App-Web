@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const TodoForm = ({ onAddTask }) => {
+const TodoForm = ({ onAddTask, categories }) => {
     const [title, setTitle] = useState("");
     const [date_echeance, setDate_echeance] = useState("");
     const [description, setDescription] = useState("");
@@ -8,10 +8,11 @@ const TodoForm = ({ onAddTask }) => {
     const [done, setDone] = useState(false);
     const [urgent, setUrgent] = useState(false);
     const [showForm, setShowForm] = useState(false);
+    const [category, setCategory] = useState("Aucune catégorie");
 
     const handleAddTask = (e) => {
         e.preventDefault();
-        if (title.trim().length <= 3) {
+        if (title.trim().length  < 3) {
             alert("Le titre de la tâche doit être d'au moins 3 caractères.");
             return;
         }
@@ -24,10 +25,8 @@ const TodoForm = ({ onAddTask }) => {
             etat,
             done,
             urgent,
+            category,
             date_creation: new Date().getTime()
-
-
-
         }
 
         onAddTask(newTask);
@@ -37,6 +36,7 @@ const TodoForm = ({ onAddTask }) => {
         setEtat("Nouveau");
         setDone(false);
         setUrgent(false);
+        setCategory("Aucune catégorie");
         setShowForm(false);
 
     };
@@ -75,6 +75,15 @@ const TodoForm = ({ onAddTask }) => {
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     />
+
+                    <select name="categorie_id" value={category} onChange={(e) => setCategory(e.target.value)}>
+                        <option value="">Aucune catégorie</option>
+                        {categories.map(category => (
+                            <option key={category.id} value={category.id}>{category.title}</option>
+
+                        ))}
+                    </select>
+
 
                     <label>
                         Urgent ?

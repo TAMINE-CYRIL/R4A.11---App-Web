@@ -39,11 +39,22 @@ export default function App() {
 
     const handleAddTask = (newTask) => {
         setTasks([...tasks, newTask]);
+
+        if (newTask.category !== null) {
+            const newRelation = {
+                tache: newTask.id,
+                categorie: newTask.category
+            };
+            setRelations([...relations, newRelation]);
+        }
     };
+
 
     const handleDeleteTask = (taskId) => {
         setTasks(tasks.filter((task) => task.id !== taskId));
+        setRelations(relations.filter((relation) => relation.tache !== taskId));
     };
+
 
     const handleEditTask = (taskId, updatedTask) => {
         setTasks(tasks.map((task) =>
@@ -74,6 +85,8 @@ export default function App() {
         setTasks(sortedTasks);
     };
 
+    console.log(tasks)
+
     return (
         <div>
             <Header taskCount={tasks.length} />
@@ -96,9 +109,9 @@ export default function App() {
                 relations={relations}
                 onDelete={handleDeleteTask}
                 onEdit={handleEditTask}
-                getCategoryForTask={getCategoryForTask} // Pass the function as prop
+                getCategoryForTask={getCategoryForTask}
             />
-            <TodoForm onAddTask={handleAddTask} />
+            <TodoForm onAddTask={handleAddTask} categories={categories} />
             <TodoFormCategory onAddCategory={handleAddCategory} />
         </div>
     );
