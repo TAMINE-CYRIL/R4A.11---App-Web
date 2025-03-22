@@ -6,11 +6,14 @@ import TodoFormCategory from "./components/TodoFormCategory/TodoFormCategory";
 import taches from "./taches.json";
 import TodoCategory from "./components/TodoCategory/TodoCategory";
 
+const ETAT_TERMINE = ['Réussi', 'Abandonné'];
+
 export default function App() {
     const [tasks, setTasks] = useState([]);
     const [categories, setCategories] = useState([]);
     const [sortCriteria, setSortCriteria] = useState("");
     const [relations, setRelations] = useState([]);
+    const [view, setView] = useState("taches"); // Ajout de l'état pour la vue active
 
     useEffect(() => {
         setTasks(taches.taches);
@@ -49,12 +52,10 @@ export default function App() {
         }
     };
 
-
     const handleDeleteTask = (taskId) => {
         setTasks(tasks.filter((task) => task.id !== taskId));
         setRelations(relations.filter((relation) => relation.tache !== taskId));
     };
-
 
     const handleEditTask = (taskId, updatedTask) => {
         setTasks(tasks.map((task) =>
@@ -85,34 +86,43 @@ export default function App() {
         setTasks(sortedTasks);
     };
 
-    console.log(tasks)
+    // Filtrer les tâches non terminées et trier par date d'échéance croissante
+    const filteredAndSortedTasks = tasks
+        .filter((task) => !ETAT_TERMINE.includes(task.etat)) // Filtrer les tâches non terminées
+        .sort((a, b) => new Date(a.date_echeance) - new Date(b.date_echeance)); // Trier par date d'échéance croissante
 
     return (
         <div>
             <Header taskCount={tasks.length} />
-            <TodoCategory categories={categories} onDelete={handleDeleteCategory} onEdit={handleEditCategory} />
-
             <div>
                 <h1>Liste des tâches</h1>
-
                 <label htmlFor="sort">Trier par :</label>
                 <select id="sort" value={sortCriteria} onChange={handleSortChange}>
                     <option value="title">Titre</option>
-                    <option value="date_echeance">Date d'écheance</option>
+                    <option value="date_echeance">Date d'échéance</option>
                     <option value="date_creation">Date de création</option>
                 </select>
             </div>
 
-            <TodoItem
-                tasks={tasks}
-                categories={categories}
-                relations={relations}
-                onDelete={handleDeleteTask}
-                onEdit={handleEditTask}
-                getCategoryForTask={getCategoryForTask}
-            />
+            {view === "taches" ? (
+                <TodoItem
+                    tasks={filteredAndSortedTasks}
+                    categories={categories}
+                    relations={relations}
+                    onDelete={handleDeleteTask}
+                    onEdit={handleEditTask}
+                    getCategoryForTask={getCategoryForTask}
+                />
+            ) : (
+                <TodoCategory categories={categories} onDelete={handleDeleteCategory} onEdit={handleEditCategory} />
+            )}
+
             <TodoForm onAddTask={handleAddTask} categories={categories} />
             <TodoFormCategory onAddCategory={handleAddCategory} />
+
+            <button onClick={() => setView(view === "taches" ? "categories" : "taches")}>
+                {view === "taches" ? "Voir les catégories" : "Voir les tâches"}
+            </button>
         </div>
     );
 }
