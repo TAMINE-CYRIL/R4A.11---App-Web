@@ -1,9 +1,11 @@
 import { useState } from "react";
+import CategoryEmojiPicker from "../EmojiPicker/EmojiPicker";
 
 const TodoFormCategory = ({ onAddCategory }) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [color, setColor] = useState("");
+    const [color, setColor] = useState("#3498db");
+    const [emoji, setEmoji] = useState("📝");
     const [actif, setActif] = useState(false);
     const [showFormCategory, setShowFormCategory] = useState(false);
 
@@ -19,13 +21,15 @@ const TodoFormCategory = ({ onAddCategory }) => {
             title,
             description,
             color,
+            emoji,
             actif,
         };
 
         onAddCategory(newCategory);
         setTitle("");
         setDescription("");
-        setColor("");
+        setColor("#3498db");
+        setEmoji("📝");
         setActif(false);
         setShowFormCategory(false);
     };
@@ -38,27 +42,36 @@ const TodoFormCategory = ({ onAddCategory }) => {
 
             {showFormCategory && (
                 <form onSubmit={handleAddCategory}>
-
                     <input
                         type="text"
                         placeholder="Ajouter une catégorie..."
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                    required={true}/>
+                        required={true}
+                    />
                     <textarea
                         placeholder="Description (optionnel)"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     />
-                    <input
-                        type="color"
-                        id="couleur"
-                        name="Couleur"
-                        value={color}
-                        onChange={(e) => setColor(e.target.value)}
+
+                    <div style={{ marginTop: "10px", marginBottom: "10px" }}>
+                        <label htmlFor="couleur">Couleur:</label>
+                        <input
+                            type="color"
+                            id="couleur"
+                            name="Couleur"
+                            value={color}
+                            onChange={(e) => setColor(e.target.value)}
+                        />
+                    </div>
+
+                    <CategoryEmojiPicker
+                        selectedEmoji={emoji}
+                        onSelectEmoji={setEmoji}
                     />
 
-                    <button type="submit">Valider</button>
+                    <button type="submit" style={{ marginTop: "15px" }}>Valider</button>
                 </form>
             )}
         </div>

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 
 export default function TodoItem({ tasks, categories, onDelete, onEdit, getCategoryForTask }) {
-
-
     const [editTaskId, setEditTaskId] = useState(null);
     const [editTask, setEditTask] = useState({});
 
@@ -11,11 +9,16 @@ export default function TodoItem({ tasks, categories, onDelete, onEdit, getCateg
         return category && category.title ? category.title : 'Aucune catégorie';
     };
 
+    const getCategoryEmoji = (taskId) => {
+        const category = getCategoryForTask(taskId);
+        return category && category.emoji ? category.emoji : '';
+    };
+
     const handleEditChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, type, checked } = e.target;
         setEditTask((prev) => ({
             ...prev,
-            [name]: value,
+            [name]: type === 'checkbox' ? checked : value,
         }));
     };
 
@@ -24,11 +27,18 @@ export default function TodoItem({ tasks, categories, onDelete, onEdit, getCateg
         setEditTaskId(null);
     };
 
+    const isTaskCompleted = (etat) => {
+        return etat === "Réussi" || etat === "Reussi"; // Handle both spellings
+    };
+
     return (
         <section>
-            <ul>
+            <ul className="liste">
                 {tasks.map((task) => {
                     const categoryName = getCategoryName(task.id);
+                    const categoryEmoji = getCategoryEmoji(task.id);
+                    const completed = isTaskCompleted(task.etat);
+
                     return (
                         <li key={task.id}>
                             {editTaskId === task.id ? (
@@ -52,7 +62,7 @@ export default function TodoItem({ tasks, categories, onDelete, onEdit, getCateg
                                     >
                                         <option value="Nouveau">Nouveau</option>
                                         <option value="En cours">En cours</option>
-                                        <option value="Réussi">Réussi</option>
+                                        <option value="Reussi">Réussi</option>
                                         <option value="En attente">En attente</option>
                                         <option value="Abandonné">Abandonné</option>
                                     </select>
@@ -62,6 +72,15 @@ export default function TodoItem({ tasks, categories, onDelete, onEdit, getCateg
                                         value={editTask.description}
                                         onChange={handleEditChange}
                                     />
+                                    <label>
+                                        Urgent ?
+                                        <input
+                                            type="checkbox"
+                                            name="urgent"
+                                            checked={editTask.urgent}
+                                            onChange={handleEditChange}
+                                        />
+                                    </label>
                                     <select
                                         name="categorie_id"
                                         value={editTask.categorie_id || ""}
@@ -70,7 +89,7 @@ export default function TodoItem({ tasks, categories, onDelete, onEdit, getCateg
                                         <option value="">Aucune catégorie</option>
                                         {categories.map((category) => (
                                             <option key={category.id} value={category.id}>
-                                                {category.title}
+                                                {category.emoji || "📝"} {category.title}
                                             </option>
                                         ))}
                                     </select>
@@ -79,12 +98,16 @@ export default function TodoItem({ tasks, categories, onDelete, onEdit, getCateg
                                 </>
                             ) : (
                                 <>
-                                    <h3>{task.title}</h3>
+                                    <h3 style={{
+                                        textDecoration: completed ? 'line-through' : 'none',
+                                        color: task.urgent ? "red" : "inherit"
+                                    }}>
+                                        {categoryEmoji} {task.title}
+                                    </h3>
                                     <p>Échéance : {task.date_echeance}</p>
                                     <p>Statut : {task.etat}</p>
                                     <p>Description : {task.description}</p>
-                                    {task.urgent && <p style={{ color: "red" }}>Urgent</p>}
-                                    <p>Catégorie : {categoryName}</p>
+                                    <p>Catégorie : {categoryEmoji} {categoryName}</p>
                                     <button onClick={() => {
                                         setEditTaskId(task.id);
                                         setEditTask(task);
@@ -97,6 +120,5 @@ export default function TodoItem({ tasks, categories, onDelete, onEdit, getCateg
                 })}
             </ul>
         </section>
-
     );
 }

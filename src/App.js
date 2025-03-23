@@ -11,9 +11,9 @@ const ETAT_TERMINE = ['Réussi', 'Abandonné'];
 export default function App() {
     const [tasks, setTasks] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [sortCriteria, setSortCriteria] = useState("");
+    const [sortCriteria, setSortCriteria] = useState("date_echeance");
     const [relations, setRelations] = useState([]);
-    const [view, setView] = useState("taches"); // Ajout de l'état pour la vue active
+    const [view, setView] = useState("taches");
 
     useEffect(() => {
         setTasks(taches.taches);
@@ -65,67 +65,56 @@ export default function App() {
 
     const handleSortChange = (newSort) => {
         setSortCriteria(newSort.target.value);
-        sortTasks(newSort.target.value);
     };
 
-    const sortTasks = (criteria) => {
-        const sortedTasks = [...tasks];
-        switch (criteria) {
+    const filteredTasks = tasks.filter((task) => !ETAT_TERMINE.includes(task.etat));
+
+    const getFilteredAndSortedTasks = () => {
+        const tasksCopy = [...filteredTasks];
+
+        switch (sortCriteria) {
             case "title":
-                sortedTasks.sort((a, b) => a.title.localeCompare(b.title));
-                break;
+                return tasksCopy.sort((a, b) => a.title.localeCompare(b.title));
             case "date_echeance":
-                sortedTasks.sort((a, b) => new Date(a.date_echeance) - new Date(b.date_echeance));
-                break;
+                return tasksCopy.sort((a, b) => new Date(a.date_echeance) - new Date(b.date_echeance));
             case "date_creation":
-                sortedTasks.sort((a, b) => new Date(a.date_creation) - new Date(b.date_creation));
-                break;
+                return tasksCopy.sort((a, b) => new Date(a.date_creation) - new Date(b.date_creation));
             default:
-                return tasks;
+                return tasksCopy.sort((a, b) => new Date(a.date_echeance) - new Date(b.date_echeance));
         }
-        setTasks(sortedTasks);
     };
-
-    // Filtrer les tâches non terminées et trier par date d'échéance croissante
-    const filteredAndSortedTasks = tasks
-        .filter((task) => !ETAT_TERMINE.includes(task.etat)) // Filtrer les tâches non terminées
-        .sort((a, b) => new Date(a.date_echeance) - new Date(b.date_echeance)); // Trier par date d'échéance croissante
 
     return (
         <div>
             <Header taskCount={tasks.length} />
 
-
             {view === "taches" ? (
-                    <div>
-                        <h1>Liste des tâches</h1>
-                        <label htmlFor="sort">Trier par :</label>
-                        <select id="sort" value={sortCriteria} onChange={handleSortChange}>
-                            <option value="title">Titre</option>
-                            <option value="date_echeance">Date d'échéance</option>
-                            <option value="date_creation">Date de création</option>
-                        </select>
+                <div>
+                    <h1>Liste des tâches</h1>
+                    <label htmlFor="sort">Trier par :</label>
+                    <select id="sort" value={sortCriteria} onChange={handleSortChange}>
+                        <option value="title">Titre</option>
+                        <option value="date_echeance">Date d'échéance</option>
+                        <option value="date_creation">Date de création</option>
+                    </select>
 
-                <TodoItem
-                    tasks={filteredAndSortedTasks}
-                    categories={categories}
-                    relations={relations}
-                    onDelete={handleDeleteTask}
-                    onEdit={handleEditTask}
-                    getCategoryForTask={getCategoryForTask}
-                />
-                        <TodoForm onAddTask={handleAddTask} categories={categories} />
-
-                    </div>
+                    <TodoItem
+                        tasks={getFilteredAndSortedTasks()}
+                        categories={categories}
+                        relations={relations}
+                        onDelete={handleDeleteTask}
+                        onEdit={handleEditTask}
+                        getCategoryForTask={getCategoryForTask}
+                    />
+                    <TodoForm onAddTask={handleAddTask} categories={categories} />
+                </div>
             ) : (
                 <section>
-                <h1>Liste des catégories</h1>
-                <TodoCategory categories={categories} onDelete={handleDeleteCategory} onEdit={handleEditCategory} />
+                    <h1>Liste des catégories</h1>
+                    <TodoCategory categories={categories} onDelete={handleDeleteCategory} onEdit={handleEditCategory} />
                     <TodoFormCategory onAddCategory={handleAddCategory} />
                 </section>
-
-                    )}
-
+            )}
 
             <button onClick={() => setView(view === "taches" ? "categories" : "taches")}>
                 {view === "taches" ? "Voir les catégories" : "Voir les tâches"}
