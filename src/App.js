@@ -94,17 +94,18 @@ export default function App() {
     return (
         <div>
             <Header taskCount={tasks.length} />
-            <div>
-                <h1>Liste des tâches</h1>
-                <label htmlFor="sort">Trier par :</label>
-                <select id="sort" value={sortCriteria} onChange={handleSortChange}>
-                    <option value="title">Titre</option>
-                    <option value="date_echeance">Date d'échéance</option>
-                    <option value="date_creation">Date de création</option>
-                </select>
-            </div>
+
 
             {view === "taches" ? (
+                    <div>
+                        <h1>Liste des tâches</h1>
+                        <label htmlFor="sort">Trier par :</label>
+                        <select id="sort" value={sortCriteria} onChange={handleSortChange}>
+                            <option value="title">Titre</option>
+                            <option value="date_echeance">Date d'échéance</option>
+                            <option value="date_creation">Date de création</option>
+                        </select>
+
                 <TodoItem
                     tasks={filteredAndSortedTasks}
                     categories={categories}
@@ -113,12 +114,18 @@ export default function App() {
                     onEdit={handleEditTask}
                     getCategoryForTask={getCategoryForTask}
                 />
-            ) : (
-                <TodoCategory categories={categories} onDelete={handleDeleteCategory} onEdit={handleEditCategory} />
-            )}
+                        <TodoForm onAddTask={handleAddTask} categories={categories} />
 
-            <TodoForm onAddTask={handleAddTask} categories={categories} />
-            <TodoFormCategory onAddCategory={handleAddCategory} />
+                    </div>
+            ) : (
+                <section>
+                <h1>Liste des catégories</h1>
+                <TodoCategory categories={categories} onDelete={handleDeleteCategory} onEdit={handleEditCategory} />
+                    <TodoFormCategory onAddCategory={handleAddCategory} />
+                </section>
+
+                    )}
+
 
             <button onClick={() => setView(view === "taches" ? "categories" : "taches")}>
                 {view === "taches" ? "Voir les catégories" : "Voir les tâches"}
