@@ -19,25 +19,20 @@
     background-color: #90e080;
 }
 
-.form {
+form {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-.formGroup {
-    display: flex;
-    flex-direction: column;
-}
 
-.formGroup label {
+form label {
     margin-bottom: 5px;
     color: #333;
 }
 
-.formGroup input,
-.formGroup select,
-.formGroup textarea {
+form input,
+form textarea {
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;

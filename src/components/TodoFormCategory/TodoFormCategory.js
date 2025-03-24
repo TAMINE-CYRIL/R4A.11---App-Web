@@ -1,5 +1,6 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import CategoryEmojiPicker from "../EmojiPicker/EmojiPicker";
+import styles from './TodoFormCategory.module.css';
 
 const TodoFormCategory = ({ onAddCategory }) => {
     const [title, setTitle] = useState("");
@@ -35,27 +36,34 @@ const TodoFormCategory = ({ onAddCategory }) => {
     };
 
     return (
-        <div>
-            <button onClick={() => setShowFormCategory(!showFormCategory)}>
+        <div className={styles.container}>
+            <button
+                className={styles.toggleButton}
+                onClick={() => setShowFormCategory(!showFormCategory)}
+            >
                 {showFormCategory ? "Masquer le formulaire" : "Ajouter une catégorie"}
             </button>
 
             {showFormCategory && (
-                <form onSubmit={handleAddCategory}>
-                    <input
-                        type="text"
-                        placeholder="Ajouter une catégorie..."
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        required={true}
-                    />
-                    <textarea
-                        placeholder="Description (optionnel)"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                    />
+                <form onSubmit={handleAddCategory} className={styles.form}>
+                        <label htmlFor="title">Titre</label>
 
-                    <div>
+                        <input
+                            type="text"
+                            placeholder="Ajouter une catégorie..."
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            required={true}
+                        />
+
+                        <label htmlFor="description">Description</label>
+
+                        <textarea
+                            placeholder="Description (optionnel)"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                        />
+
                         <label htmlFor="couleur">Couleur:</label>
                         <input
                             type="color"
@@ -64,14 +72,13 @@ const TodoFormCategory = ({ onAddCategory }) => {
                             value={color}
                             onChange={(e) => setColor(e.target.value)}
                         />
-                    </div>
 
                     <CategoryEmojiPicker
                         selectedEmoji={emoji}
                         onSelectEmoji={setEmoji}
                     />
 
-                    <button type="submit">Valider</button>
+                    <button type="submit" className={styles.submitButton}>Valider</button>
                 </form>
             )}
         </div>

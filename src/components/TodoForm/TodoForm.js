@@ -1,4 +1,5 @@
 import { useState } from "react";
+import styles from './TodoForm.module.css';
 
 const TodoForm = ({ onAddTask, categories }) => {
     const [title, setTitle] = useState("");
@@ -41,15 +42,18 @@ const TodoForm = ({ onAddTask, categories }) => {
     };
 
     return (
-        <div>
+        <div className={styles.container}>
             <h2>To-Do List</h2>
-            <button onClick={() => setShowForm(!showForm)}>
+            <button
+                className={styles.toggleButton}
+                onClick={() => setShowForm(!showForm)}
+            >
                 {showForm ? "Masquer le formulaire" : "Ajouter une tâche"}
             </button>
 
             {showForm && (
-                <form onSubmit={handleAddTask}>
-                    <div>
+                <form onSubmit={handleAddTask} className={styles.form}>
+                    <div className={styles.formGroup}>
                         <label htmlFor="title">Titre:</label>
                         <input
                             id="title"
@@ -61,7 +65,7 @@ const TodoForm = ({ onAddTask, categories }) => {
                         />
                     </div>
 
-                    <div>
+                    <div className={styles.formGroup}>
                         <label htmlFor="date_echeance">Date d'échéance:</label>
                         <input
                             id="date_echeance"
@@ -72,7 +76,7 @@ const TodoForm = ({ onAddTask, categories }) => {
                         />
                     </div>
 
-                    <div>
+                    <div className={styles.formGroup}>
                         <label htmlFor="etat">État:</label>
                         <select id="etat" value={etat} onChange={(e) => setEtat(e.target.value)}>
                             <option value="Nouveau">Nouveau</option>
@@ -83,7 +87,7 @@ const TodoForm = ({ onAddTask, categories }) => {
                         </select>
                     </div>
 
-                    <div>
+                    <div className={styles.formGroup}>
                         <label htmlFor="description">Description:</label>
                         <textarea
                             id="description"
@@ -93,7 +97,7 @@ const TodoForm = ({ onAddTask, categories }) => {
                         />
                     </div>
 
-                    <div>
+                    <div className={styles.formGroup}>
                         <label htmlFor="category">Catégorie:</label>
                         <select
                             id="category"
@@ -110,7 +114,7 @@ const TodoForm = ({ onAddTask, categories }) => {
                         </select>
                     </div>
 
-                    <div>
+                    <div className={styles.formGroup}>
                         <label>
                             Urgent ?
                             <input
@@ -121,7 +125,7 @@ const TodoForm = ({ onAddTask, categories }) => {
                         </label>
                     </div>
 
-                    <button type="submit">Valider</button>
+                    <button type="submit" className={styles.submitButton}>Valider</button>
                 </form>
             )}
         </div>

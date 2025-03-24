@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styles from './TodoItem.module.css';
 
 export default function TodoItem({ tasks, categories, onDelete, onEdit, getCategoryForTask }) {
     const [editTaskId, setEditTaskId] = useState(null);
@@ -39,9 +40,9 @@ export default function TodoItem({ tasks, categories, onDelete, onEdit, getCateg
     return (
         <section>
             {tasks.length === 0 ? (
-                <p>Aucune tâche ne correspond à vos critères de filtrage.</p>
+                <p className={styles.emptyState}>Aucune tâche ne correspond à vos critères de filtrage.</p>
             ) : (
-                <ul className="liste">
+                <ul className={styles.list}>
                     {tasks.map((task) => {
                         const categoryName = getCategoryName(task.id);
                         const categoryEmoji = getCategoryEmoji(task.id);
@@ -49,21 +50,27 @@ export default function TodoItem({ tasks, categories, onDelete, onEdit, getCateg
                         const completed = isTaskCompleted(task.etat);
 
                         return (
-                            <li key={task.id}>
+                            <li key={task.id} className={styles.listItem}>
                                 {editTaskId === task.id ? (
-                                    <>
+                                    <form>
+                                        <label htmlFor="title">Titre:</label>
                                         <input
                                             type="text"
                                             name="title"
                                             value={editTask.title}
                                             onChange={handleEditChange}
+                                            placeholder="Modifier une tâche..."
                                         />
+                                        <label htmlFor="date_echeance">Date d'échéance:</label>
+
                                         <input
                                             type="date"
                                             name="date_echeance"
                                             value={editTask.date_echeance}
                                             onChange={handleEditChange}
                                         />
+                                        <label htmlFor="etat">État:</label>
+
                                         <select
                                             name="etat"
                                             value={editTask.etat}
@@ -75,6 +82,8 @@ export default function TodoItem({ tasks, categories, onDelete, onEdit, getCateg
                                             <option value="En attente">En attente</option>
                                             <option value="Abandonné">Abandonné</option>
                                         </select>
+                                        <label htmlFor="description">Description:</label>
+
                                         <textarea
                                             name="description"
                                             placeholder="Description (optionnel)"
@@ -102,41 +111,54 @@ export default function TodoItem({ tasks, categories, onDelete, onEdit, getCateg
                                                 </option>
                                             ))}
                                         </select>
-                                        <button onClick={handleEditSave}>Sauvegarder</button>
-                                        <button onClick={() => setEditTaskId(null)}>Annuler</button>
-                                    </>
+                                        <div className={styles.taskActions}>
+                                            <button className={styles.editButton} onClick={handleEditSave}>Sauvegarder</button>
+                                            <button className={styles.deleteButton} onClick={() => setEditTaskId(null)}>Annuler</button>
+                                        </div>
+                                    </form>
                                 ) : (
-                                    <>
-                                        <div>
-                                            <h3 style={{
+                                    <div>
+                                        <h3
+                                            className={styles.taskTitle}
+                                            style={{
                                                 textDecoration: completed ? 'line-through' : 'none',
                                                 color: task.urgent ? "red" : "inherit"
-                                            }}>
-                                                {categoryEmoji} {task.title}
-                                                {task.urgent}
-                                            </h3>
-                                            <p>Échéance : {task.date_echeance}</p>
-                                            <p>Statut : <span style={{
-                                                padding: "2px 6px",
-                                                backgroundColor: completed ? "#d4edda" : "#f8d7da",
-                                                color: completed ? "#155724" : "#721c24",
-                                                borderRadius: "4px",
-                                                fontSize: "0.9em"
-                                            }}>{task.etat}</span></p>
-                                            {task.description && <p>Description : {task.description}</p>}
-                                            <p>Catégorie : <span style={{ color: categoryColor }}>
-                                                {categoryEmoji} {categoryName}
-                                            </span></p>
-                                            <div style={{ marginTop: "10px" }}>
-                                                <button onClick={() => {
+                                            }}
+                                        >
+                                            {categoryEmoji} {task.title}
+                                            {task.urgent}
+                                        </h3>
+                                        <p>Échéance : {task.date_echeance}</p>
+                                        <p>Statut : <span style={{
+                                            padding: "2px 6px",
+                                            backgroundColor: completed ? "#d4edda" : "#f8d7da",
+                                            color: completed ? "#155724" : "#721c24",
+                                            borderRadius: "4px",
+                                            fontSize: "0.9em"
+                                        }}>{task.etat}</span></p>
+                                        {task.description && <p className={styles.taskDescription}>Description : {task.description}</p>}
+                                        <p>Catégorie : <span style={{ color: categoryColor }}>
+                                            {categoryEmoji} {categoryName}
+                                        </span></p>
+                                        <div className={styles.taskActions}>
+                                            <button
+                                                className={styles.editButton}
+                                                onClick={() => {
                                                     setEditTaskId(task.id);
                                                     const categoryId = getCategoryForTask(task.id)?.id || "";
                                                     setEditTask({...task, categorie_id: categoryId.toString()});
-                                                }}>Modifier</button>
-                                                <button onClick={() => onDelete(task.id)}>Supprimer</button>
-                                            </div>
+                                                }}
+                                            >
+                                                Modifier
+                                            </button>
+                                            <button
+                                                className={styles.deleteButton}
+                                                onClick={() => onDelete(task.id)}
+                                            >
+                                                Supprimer
+                                            </button>
                                         </div>
-                                    </>
+                                    </div>
                                 )}
                             </li>
                         );

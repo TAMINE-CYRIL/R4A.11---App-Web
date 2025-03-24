@@ -1,4 +1,5 @@
 import React from "react";
+import styles from './TaskFilters.module.css';
 
 const TaskFilters = ({ categories, filters, onFilterChange }) => {
     const handleInputChange = (e) => {
@@ -11,11 +12,11 @@ const TaskFilters = ({ categories, filters, onFilterChange }) => {
     const states = ["Nouveau", "En cours", "Reussi", "Réussi", "En attente", "Abandonné"];
 
     return (
-        <div className="task-filters">
-            <h3>Filtres</h3>
+        <div className={styles.container}>
+            <h3 className={styles.title}>Filtres</h3>
 
-            <div>
-                <div>
+            <div className={styles.filterGroup}>
+                <div className={styles.filterItem}>
                     <label htmlFor="searchTerm">Recherche : </label>
                     <input
                         type="text"
@@ -27,7 +28,7 @@ const TaskFilters = ({ categories, filters, onFilterChange }) => {
                     />
                 </div>
 
-                <div>
+                <div className={styles.filterItem}>
                     <label htmlFor="category">Catégorie : </label>
                     <select
                         id="category"
@@ -44,7 +45,7 @@ const TaskFilters = ({ categories, filters, onFilterChange }) => {
                     </select>
                 </div>
 
-                <div>
+                <div className={styles.filterItem}>
                     <label htmlFor="state">État : </label>
                     <select
                         id="state"
@@ -60,37 +61,37 @@ const TaskFilters = ({ categories, filters, onFilterChange }) => {
                 </div>
             </div>
 
-            <div>
-                <label>
+            <div className={styles.checkboxGroup}>
+                <div className={styles.checkboxItem}>
                     <input
                         type="checkbox"
                         name="showUrgent"
                         checked={filters.showUrgent}
                         onChange={handleInputChange}
                     />
-                    Tâches urgentes uniquement
-                </label>
+                    <label>Tâches urgentes uniquement</label>
+                </div>
 
                 <div>
-                    <label>
+                    <div className={styles.checkboxItem}>
                         <input
                             type="checkbox"
                             name="showDone"
                             checked={filters.showDone}
                             onChange={handleInputChange}
                         />
-                        Tâches terminées
-                    </label>
+                        <label>Tâches terminées</label>
+                    </div>
 
-                    <label>
+                    <div className={styles.checkboxItem}>
                         <input
                             type="checkbox"
                             name="showNotDone"
                             checked={filters.showNotDone}
                             onChange={handleInputChange}
                         />
-                        Tâches non terminées
-                    </label>
+                        <label>Tâches non terminées</label>
+                    </div>
                 </div>
             </div>
         </div>
