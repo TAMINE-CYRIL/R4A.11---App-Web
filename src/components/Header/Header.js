@@ -1,3 +1,5 @@
+import styles from './Header.module.css';
+
 /**
  * Composant contenant le Header de la page
  * @returns {JSX.Element}
@@ -6,14 +8,14 @@
 export default function Header({ taskCount, unfinishedCount }) {
     return (
         <>
-            <div>
+            <section className={styles.header}>
                 <h1>{taskCount} Tâches</h1>
-                <div>
+                <section>
                     <p>
                         Total: {taskCount} | À faire: <span>{unfinishedCount}</span>
                     </p>
-                </div>
-            </div>
+                </section>
+            </section>
             <hr />
         </>
     );

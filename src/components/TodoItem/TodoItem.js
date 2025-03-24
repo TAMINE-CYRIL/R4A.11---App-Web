@@ -113,7 +113,7 @@ export default function TodoItem({ tasks, categories, onDelete, onEdit, getCateg
                                                 color: task.urgent ? "red" : "inherit"
                                             }}>
                                                 {categoryEmoji} {task.title}
-                                                {task.urgent && <span style={{ marginLeft: "10px", color: "red" }}>⚠️ Urgent</span>}
+                                                {task.urgent}
                                             </h3>
                                             <p>Échéance : {task.date_echeance}</p>
                                             <p>Statut : <span style={{
