@@ -102,15 +102,6 @@ export default function TodoItem({ tasks, categories, onDelete, onEdit, getCateg
                                                     value={editTask.description}
                                                     onChange={handleEditChange}
                                                 />
-                                                <label>
-                                                    Urgent ?
-                                                    <input
-                                                        type="checkbox"
-                                                        name="urgent"
-                                                        checked={editTask.urgent}
-                                                        onChange={handleEditChange}
-                                                    />
-                                                </label>
                                                 <label htmlFor="categorie_id">Catégorie:</label>
                                                 <select
                                                     name="categorie_id"
@@ -124,6 +115,15 @@ export default function TodoItem({ tasks, categories, onDelete, onEdit, getCateg
                                                         </option>
                                                     ))}
                                                 </select>
+                                                <label>
+                                                    Urgent ?
+                                                    <input
+                                                        type="checkbox"
+                                                        name="urgent"
+                                                        checked={editTask.urgent}
+                                                        onChange={handleEditChange}
+                                                    />
+                                                </label>
                                                 <div className={styles.taskActions}>
                                                     <button
                                                         type="button"
