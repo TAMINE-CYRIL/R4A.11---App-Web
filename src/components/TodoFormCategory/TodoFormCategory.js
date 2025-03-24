@@ -8,7 +8,7 @@ const TodoFormCategory = ({ onAddCategory }) => {
     const [color, setColor] = useState("#3498db");
     const [emoji, setEmoji] = useState("📝");
     const [actif, setActif] = useState(false);
-    const [showFormCategory, setShowFormCategory] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
 
     const handleAddCategory = (e) => {
         e.preventDefault();
@@ -32,54 +32,63 @@ const TodoFormCategory = ({ onAddCategory }) => {
         setColor("#3498db");
         setEmoji("📝");
         setActif(false);
-        setShowFormCategory(false);
+        setShowPopup(false);
     };
 
     return (
         <div className={styles.container}>
             <button
                 className={styles.toggleButton}
-                onClick={() => setShowFormCategory(!showFormCategory)}
+                onClick={() => setShowPopup(true)}
             >
-                {showFormCategory ? "Masquer le formulaire" : "Ajouter une catégorie"}
+                Ajouter une catégorie
             </button>
 
-            {showFormCategory && (
-                <form onSubmit={handleAddCategory} className={styles.form}>
-                        <label htmlFor="title">Titre</label>
+            {showPopup && (
+                <div className={styles.popupOverlay}>
+                    <div className={styles.popupContent}>
+                        <button
+                            className={styles.closeButton}
+                            onClick={() => setShowPopup(false)}
+                        >
+                            ×
+                        </button>
+                        <form onSubmit={handleAddCategory} className={styles.form}>
+                            <h3>Nouvelle Catégorie</h3>
+                            <label htmlFor="title">Titre</label>
+                            <input
+                                type="text"
+                                placeholder="Ajouter une catégorie..."
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                required={true}
+                            />
 
-                        <input
-                            type="text"
-                            placeholder="Ajouter une catégorie..."
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            required={true}
-                        />
+                            <label htmlFor="description">Description</label>
+                            <textarea
+                                placeholder="Description (optionnel)"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                            />
 
-                        <label htmlFor="description">Description</label>
+                            <label htmlFor="couleur">Couleur:</label>
+                            <input
+                                type="color"
+                                id="couleur"
+                                name="Couleur"
+                                value={color}
+                                onChange={(e) => setColor(e.target.value)}
+                            />
 
-                        <textarea
-                            placeholder="Description (optionnel)"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                        />
+                            <CategoryEmojiPicker
+                                selectedEmoji={emoji}
+                                onSelectEmoji={setEmoji}
+                            />
 
-                        <label htmlFor="couleur">Couleur:</label>
-                        <input
-                            type="color"
-                            id="couleur"
-                            name="Couleur"
-                            value={color}
-                            onChange={(e) => setColor(e.target.value)}
-                        />
-
-                    <CategoryEmojiPicker
-                        selectedEmoji={emoji}
-                        onSelectEmoji={setEmoji}
-                    />
-
-                    <button type="submit" className={styles.submitButton}>Valider</button>
-                </form>
+                            <button type="submit" className={styles.submitButton}>Valider</button>
+                        </form>
+                    </div>
+                </div>
             )}
         </div>
     );

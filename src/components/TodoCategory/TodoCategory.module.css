@@ -50,21 +50,3 @@
     cursor: pointer;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-
-form label {
-    margin-bottom: 5px;
-    color: #333;
-}
-
-form input,
-form textarea {
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}

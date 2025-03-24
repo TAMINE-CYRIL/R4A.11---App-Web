@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Header from "./components/Header/Header";
+import Footer from "./components/Footer/Footer";
 import TodoForm from "./components/TodoForm/TodoForm";
 import TodoItem from "./components/TodoItem/TodoItem";
 import TodoFormCategory from "./components/TodoFormCategory/TodoFormCategory";
@@ -16,7 +17,6 @@ export default function App() {
     const [relations, setRelations] = useState([]);
     const [view, setView] = useState("taches");
 
-    // Filtres
     const [filters, setFilters] = useState({
         category: "",
         state: "",
@@ -42,10 +42,8 @@ export default function App() {
     };
 
     const handleDeleteCategory = (categoryId) => {
-        // Supprimer la catégorie
         setCategories(categories.filter((category) => category.id !== categoryId));
 
-        // Supprimer les relations associées à cette catégorie
         setRelations(relations.filter((relation) => relation.categorie !== categoryId));
     };
 
@@ -73,31 +71,31 @@ export default function App() {
     };
 
     const handleEditTask = (taskId, updatedTask) => {
-        // Mise à jour de la tâche
         setTasks(tasks.map((task) =>
             task.id === taskId ? { ...task, ...updatedTask } : task
         ));
 
-        // Gestion de la relation avec la catégorie
         const existingRelation = relations.find(rel => rel.tache === taskId);
 
         if (updatedTask.categorie_id) {
             const newCategoryId = parseInt(updatedTask.categorie_id);
 
             if (existingRelation) {
-                // Mettre à jour la relation existante
                 setRelations(relations.map(rel =>
                     rel.tache === taskId ? { ...rel, categorie: newCategoryId } : rel
                 ));
             } else {
-                // Créer une nouvelle relation
                 setRelations([...relations, { tache: taskId, categorie: newCategoryId }]);
             }
         } else if (existingRelation) {
-            // Supprimer la relation si aucune catégorie n'est sélectionnée
             setRelations(relations.filter(rel => rel.tache !== taskId));
         }
     };
+
+    const handleToggleView = () => {
+        setView(view === "taches" ? "categories" : "taches");
+    };
+
 
     const handleSortChange = (newSort) => {
         setSortCriteria(newSort.target.value);
@@ -112,7 +110,6 @@ export default function App() {
     };
 
     const filteredTasks = tasks.filter((task) => {
-        // Filtre par catégorie
         if (filters.category && filters.category !== "") {
             const taskCategory = getCategoryForTask(task.id);
             if (!taskCategory || taskCategory.id !== parseInt(filters.category)) {
@@ -120,14 +117,12 @@ export default function App() {
             }
         }
 
-        // Filtre par état
         if (filters.state && filters.state !== "") {
             if (task.etat !== filters.state) {
                 return false;
             }
         }
 
-        // Filtre par texte (recherche)
         if (filters.searchTerm && filters.searchTerm !== "") {
             const searchLower = filters.searchTerm.toLowerCase();
             const titleLower = task.title.toLowerCase();
@@ -138,18 +133,14 @@ export default function App() {
             }
         }
 
-        // Filtre par urgence
         if (filters.showUrgent && !task.urgent) {
             return false;
         }
 
-        // Filtre par statut (fait/pas fait)
         const isDone = isTaskDone(task);
-        if ((filters.showDone && !isDone) || (filters.showNotDone && isDone)) {
-            return false;
-        }
+        return !((filters.showDone && !isDone) || (filters.showNotDone && isDone));
 
-        return true;
+
     });
 
     const getFilteredAndSortedTasks = () => {
@@ -167,7 +158,6 @@ export default function App() {
         }
     };
 
-    // Calcul des statistiques pour l'en-tête
     const totalTasks = tasks.length;
     const unfinishedTasks = tasks.filter(task => !ETAT_TERMINE.includes(task.etat)).length;
 
@@ -214,9 +204,8 @@ export default function App() {
                 </section>
             )}
 
-            <button onClick={() => setView(view === "taches" ? "categories" : "taches")}>
-                {view === "taches" ? "Voir les catégories" : "Voir les tâches"}
-            </button>
+            <Footer view={view} onToggleView={handleToggleView} />
+
         </div>
     );
 }
