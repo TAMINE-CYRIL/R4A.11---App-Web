@@ -55,7 +55,7 @@ const TodoFormCategory = ({ onAddCategory }) => {
                         onChange={(e) => setDescription(e.target.value)}
                     />
 
-                    <div style={{ marginTop: "10px", marginBottom: "10px" }}>
+                    <div>
                         <label htmlFor="couleur">Couleur:</label>
                         <input
                             type="color"
@@ -71,7 +71,7 @@ const TodoFormCategory = ({ onAddCategory }) => {
                         onSelectEmoji={setEmoji}
                     />
 
-                    <button type="submit" style={{ marginTop: "15px" }}>Valider</button>
+                    <button type="submit">Valider</button>
                 </form>
             )}
         </div>

@@ -8,25 +8,25 @@ const TodoForm = ({ onAddTask, categories }) => {
     const [done, setDone] = useState(false);
     const [urgent, setUrgent] = useState(false);
     const [showForm, setShowForm] = useState(false);
-    const [category, setCategory] = useState("Aucune catégorie");
+    const [category, setCategory] = useState("");
 
     const handleAddTask = (e) => {
         e.preventDefault();
-        if (title.trim().length  < 3) {
+        if (title.trim().length < 3) {
             alert("Le titre de la tâche doit être d'au moins 3 caractères.");
             return;
         }
 
         const newTask = {
-            id : Date.now(),
+            id: Date.now(),
             title,
             date_echeance,
             description,
             etat,
             done,
             urgent,
-            category,
-            date_creation: new Date().getTime()
+            category: category,
+            date_creation: new Date().toISOString().split('T')[0]
         }
 
         onAddTask(newTask);
@@ -36,9 +36,8 @@ const TodoForm = ({ onAddTask, categories }) => {
         setEtat("Nouveau");
         setDone(false);
         setUrgent(false);
-        setCategory("Aucune catégorie");
+        setCategory("");
         setShowForm(false);
-
     };
 
     return (
@@ -50,49 +49,77 @@ const TodoForm = ({ onAddTask, categories }) => {
 
             {showForm && (
                 <form onSubmit={handleAddTask}>
-                    <input
-                        type="text"
-                        placeholder="Ajouter une tâche..."
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                    required={true}/>
-                    <input
-                        type="date"
-                        value={date_echeance}
-                        onChange={(e) => setDate_echeance(e.target.value)}
-                    required={true}/>
-
-                    <select value={etat} onChange={(e) => setEtat(e.target.value)}>
-                        <option value="Nouveau">Nouveau</option>
-                        <option value="En cours">En Cours</option>
-                        <option value="Reussi">Réussi</option>
-                        <option value="Attente">En attente</option>
-                        <option value="Abandonné">Abandonné</option>
-                    </select>
-
-                    <textarea
-                        placeholder="Description (optionnel)"
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                    />
-
-                    <select name="categorie_id" value={category} onChange={(e) => setCategory(e.target.value)}>
-                        <option value="">Aucune catégorie</option>
-                        {categories.map(category => (
-                            <option key={category.id} value={category.id}>{category.title}</option>
-
-                        ))}
-                    </select>
-
-
-                    <label>
-                        Urgent ?
+                    <div>
+                        <label htmlFor="title">Titre:</label>
                         <input
-                            type="checkbox"
-                            checked={urgent}
-                            onChange={(e) => setUrgent(e.target.checked)}
+                            id="title"
+                            type="text"
+                            placeholder="Ajouter une tâche..."
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            required={true}
                         />
-                    </label>
+                    </div>
+
+                    <div>
+                        <label htmlFor="date_echeance">Date d'échéance:</label>
+                        <input
+                            id="date_echeance"
+                            type="date"
+                            value={date_echeance}
+                            onChange={(e) => setDate_echeance(e.target.value)}
+                            required={true}
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="etat">État:</label>
+                        <select id="etat" value={etat} onChange={(e) => setEtat(e.target.value)}>
+                            <option value="Nouveau">Nouveau</option>
+                            <option value="En cours">En Cours</option>
+                            <option value="Reussi">Réussi</option>
+                            <option value="En attente">En attente</option>
+                            <option value="Abandonné">Abandonné</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label htmlFor="description">Description:</label>
+                        <textarea
+                            id="description"
+                            placeholder="Description (optionnel)"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                        />
+                    </div>
+
+                    <div>
+                        <label htmlFor="category">Catégorie:</label>
+                        <select
+                            id="category"
+                            name="category"
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                        >
+                            <option value="">Aucune catégorie</option>
+                            {categories.map(cat => (
+                                <option key={cat.id} value={cat.id}>
+                                    {cat.emoji || "📝"} {cat.title}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>
+                            Urgent ?
+                            <input
+                                type="checkbox"
+                                checked={urgent}
+                                onChange={(e) => setUrgent(e.target.checked)}
+                            />
+                        </label>
+                    </div>
 
                     <button type="submit">Valider</button>
                 </form>

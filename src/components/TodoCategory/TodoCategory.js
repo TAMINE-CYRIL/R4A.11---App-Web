@@ -59,7 +59,7 @@ export default function TodoCategory({ categories, onEdit, onDelete }) {
                             </>
                         ) : (
                             <>
-                                <h3 style={{ color: category.color }}>
+                                <h3>
                                     {category.emoji || "📝"} {category.title}
                                 </h3>
                                 <p>Description : {category.description}</p>
