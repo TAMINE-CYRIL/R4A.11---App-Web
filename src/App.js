@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { PieChart } from '@mui/x-charts/PieChart';
+import React, {useState } from "react";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import TodoForm from "./components/TodoForm/TodoForm";
@@ -27,13 +28,13 @@ export default function App() {
         showNotDone: true
     });
 
-    /*
-    useEffect(() => {
-        setTasks(taches.taches);
-        setCategories(taches.categories);
-        setRelations(taches.relations);
-    }, []);
-*/
+    const handleImportData = (importedData) => {
+        setTasks(importedData.tasks);
+        setCategories(importedData.categories);
+        setRelations(importedData.relations);
+        setView("taches");
+    };
+
     const getCategoryForTask = (taskId) => {
         const relation = relations.find((e) => e.tache === taskId);
         return relation ? categories.find((category) => category.id === relation.categorie) : null;
@@ -104,8 +105,22 @@ export default function App() {
         else {
             setView("categories");
         }
-        //setView(view === "taches" ? "categories" : "taches");
     };
+
+    const getTaskDistributionByState = () => {
+        return tasks.reduce((acc, task) => {
+            acc[task.etat] = (acc[task.etat] || 0) + 1;
+            return acc;
+        }, {});
+    };
+
+    const taskDistribution = getTaskDistributionByState();
+    const pieChartData = Object.keys(taskDistribution).map((etat, index) => ({
+        id: index,
+        value: taskDistribution[etat],
+        label: etat,
+    }));
+
 
 
     const handleSortChange = (newSort) => {
@@ -177,8 +192,9 @@ export default function App() {
             <Header taskCount={totalTasks} unfinishedCount={unfinishedTasks} />
 
 
+
             {view === "import" && (
-                <ImportJSON></ImportJSON>
+                <ImportJSON onImport={handleImportData} />
             )}
 
             {view === "taches" && (
@@ -195,6 +211,18 @@ export default function App() {
                             </select>
                         </div>
                     </div>
+
+
+                    <PieChart
+                        series={[
+                            {
+                                data: pieChartData,
+                            },
+                        ]}
+                        width={400}
+                        height={200}
+                    />
+
 
                     <TaskFilters
                         categories={categories}

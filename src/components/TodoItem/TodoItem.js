@@ -44,7 +44,9 @@ export default function TodoItem({ tasks, categories, onDelete, onEdit, getCateg
     };
 
     return (
+
         <section>
+
             {tasks.length === 0 ? (
                 <p className={styles.emptyState}>Aucune tâche ne correspond à vos critères de filtrage.</p>
             ) : (
