@@ -89,7 +89,7 @@ const TodoForm = ({ onAddTask, categories }) => {
                                 <select id="etat" value={etat} onChange={(e) => setEtat(e.target.value)}>
                                     <option value="Nouveau">Nouveau</option>
                                     <option value="En cours">En Cours</option>
-                                    <option value="Reussi">Réussi</option>
+                                    <option value="Reussi">Reussi</option>
                                     <option value="En attente">En attente</option>
                                     <option value="Abandonné">Abandonné</option>
                                 </select>

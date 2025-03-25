@@ -9,7 +9,7 @@ const TaskFilters = ({ categories, filters, onFilterChange }) => {
         });
     };
 
-    const states = ["Nouveau", "En cours", "Reussi", "Réussi", "En attente", "Abandonné"];
+    const states = ["Nouveau", "En cours", "Reussi", "En attente", "Abandonné"];
 
     return (
         <div className={styles.container}>

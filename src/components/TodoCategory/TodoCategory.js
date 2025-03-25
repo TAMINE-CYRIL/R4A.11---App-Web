@@ -50,7 +50,7 @@ export default function TodoCategory({ categories, onEdit, onDelete }) {
             <ul className={styles.list}>
                 {categories.map((category) => (
                     <li key={category.id} className={styles.listItem}>
-                        <h3 className={styles.categoryTitle}>
+                        <h3 className={styles.categoryTitle} style={{color:category.color}}>
                             {category.emoji || "📝"} {category.title}
                         </h3>
                         <p className={styles.categoryDescription}>

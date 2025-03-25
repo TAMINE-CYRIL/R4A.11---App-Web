@@ -53,7 +53,7 @@ const TodoFormCategory = ({ onAddCategory }) => {
                         >
                             ×
                         </button>
-                        <form onSubmit={handleAddCategory} className={styles.form}>
+                        <form onSubmit={handleAddCategory}>
                             <h3>Nouvelle Catégorie</h3>
                             <label htmlFor="title">Titre</label>
                             <input
@@ -71,10 +71,10 @@ const TodoFormCategory = ({ onAddCategory }) => {
                                 onChange={(e) => setDescription(e.target.value)}
                             />
 
-                            <label htmlFor="couleur">Couleur:</label>
+                            <label htmlFor="color">Couleur:</label>
                             <input
                                 type="color"
-                                id="couleur"
+                                id="color"
                                 name="Couleur"
                                 value={color}
                                 onChange={(e) => setColor(e.target.value)}

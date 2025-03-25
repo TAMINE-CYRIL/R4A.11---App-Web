@@ -5,17 +5,18 @@ import TodoForm from "./components/TodoForm/TodoForm";
 import TodoItem from "./components/TodoItem/TodoItem";
 import TodoFormCategory from "./components/TodoFormCategory/TodoFormCategory";
 import TaskFilters from "./components/TaskFilters/TaskFilters";
-import taches from "./taches.json";
+//import taches from "./taches.json";
 import TodoCategory from "./components/TodoCategory/TodoCategory";
+import ImportJSON from "./components/ImportJSON/ImportJSON";
 
-const ETAT_TERMINE = ['Réussi', 'Reussi', 'Abandonné'];
+const ETAT_TERMINE = ['Reussi', 'Abandonné'];
 
 export default function App() {
     const [tasks, setTasks] = useState([]);
     const [categories, setCategories] = useState([]);
     const [sortCriteria, setSortCriteria] = useState("date_echeance");
     const [relations, setRelations] = useState([]);
-    const [view, setView] = useState("taches");
+    const [view, setView] = useState("import");
 
     const [filters, setFilters] = useState({
         category: "",
@@ -26,12 +27,13 @@ export default function App() {
         showNotDone: true
     });
 
+    /*
     useEffect(() => {
         setTasks(taches.taches);
         setCategories(taches.categories);
         setRelations(taches.relations);
     }, []);
-
+*/
     const getCategoryForTask = (taskId) => {
         const relation = relations.find((e) => e.tache === taskId);
         return relation ? categories.find((category) => category.id === relation.categorie) : null;
@@ -93,7 +95,16 @@ export default function App() {
     };
 
     const handleToggleView = () => {
-        setView(view === "taches" ? "categories" : "taches");
+        if (view === "import"){
+            setView("import");
+        }
+        else if (view === "view"){
+            setView("view");
+        }
+        else {
+            setView("categories");
+        }
+        //setView(view === "taches" ? "categories" : "taches");
     };
 
 
@@ -165,7 +176,12 @@ export default function App() {
         <div>
             <Header taskCount={totalTasks} unfinishedCount={unfinishedTasks} />
 
-            {view === "taches" ? (
+
+            {view === "import" && (
+                <ImportJSON></ImportJSON>
+            )}
+
+            {view === "taches" && (
                 <div>
                     <h1>Liste des tâches</h1>
 
@@ -196,7 +212,9 @@ export default function App() {
                     />
                     <TodoForm onAddTask={handleAddTask} categories={categories} />
                 </div>
-            ) : (
+            )}
+
+            {( view === "categorie" &&
                 <section>
                     <h1>Liste des catégories</h1>
                     <TodoCategory categories={categories} onDelete={handleDeleteCategory} onEdit={handleEditCategory} />

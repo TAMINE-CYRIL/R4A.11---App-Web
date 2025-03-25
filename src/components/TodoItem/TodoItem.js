@@ -34,7 +34,7 @@ export default function TodoItem({ tasks, categories, onDelete, onEdit, getCateg
     };
 
     const isTaskCompleted = (etat) => {
-        return etat === "Réussi" || etat === "Reussi" || etat === "Abandonné";
+        return etat === "Reussi" || etat === "Abandonné";
     };
 
     const openEditPopup = (task) => {
@@ -91,7 +91,7 @@ export default function TodoItem({ tasks, categories, onDelete, onEdit, getCateg
                                                 >
                                                     <option value="Nouveau">Nouveau</option>
                                                     <option value="En cours">En cours</option>
-                                                    <option value="Reussi">Réussi</option>
+                                                    <option value="Reussi">Reussi</option>
                                                     <option value="En attente">En attente</option>
                                                     <option value="Abandonné">Abandonné</option>
                                                 </select>
