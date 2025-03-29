@@ -6,7 +6,6 @@ import TodoForm from "./components/TodoForm/TodoForm";
 import TodoItem from "./components/TodoItem/TodoItem";
 import TodoFormCategory from "./components/TodoFormCategory/TodoFormCategory";
 import TaskFilters from "./components/TaskFilters/TaskFilters";
-//import taches from "./taches.json";
 import TodoCategory from "./components/TodoCategory/TodoCategory";
 import ImportJSON from "./components/ImportJSON/ImportJSON";
 
@@ -96,15 +95,13 @@ export default function App() {
     };
 
     const handleToggleView = () => {
-        if (view === "import"){
-            setView("import");
-        }
-        else if (view === "view"){
-            setView("view");
-        }
-        else {
-            setView("categories");
-        }
+            if (view === "import") {
+                setView("taches");
+            } else if (view === "taches") {
+                setView("categories");
+            } else if (view === "categories") {
+                setView("taches");
+            }
     };
 
     const getTaskDistributionByState = () => {
@@ -250,8 +247,9 @@ export default function App() {
                 </section>
             )}
 
-            <Footer view={view} onToggleView={handleToggleView} />
-
+            {view !== "import" && (
+                <Footer view={view} onToggleView={handleToggleView} />
+            )}
         </div>
     );
 }
